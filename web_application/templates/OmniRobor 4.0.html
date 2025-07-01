@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+    <title>OmniRobo 4.0</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .hexagon {
+            width: 90px;
+            height: 60px;
+            background-color: #467fc1;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            border: 2px solid #285385;
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out;
+        }
+        .hexagon:before,
+        .hexagon:after {
+            content: "";
+            position: absolute;
+            width: 0;
+            border-left: 30px solid transparent;
+            border-right: 30px solid transparent;
+        }
+        .hexagon:before {
+            top: -17.32px;
+            border-bottom: 17.32px solid #4690c1;
+        }
+        .hexagon:after {
+            bottom: -17.32px;
+            border-top: 17.32px solid #4694c1;
+        }
+        .hexagon:active {
+            transform: scale(0.9);
+        }
+
+        /* Dark Mode Styles */
+        .dark-mode {
+            background-color: rgb(10, 8, 8) !important;
+            color: white !important;
+        }
+        .dark-mode h1, .dark-mode h2, .dark-mode button {
+            color: white !important;
+        }
+        .dark-mode .hexagon {
+            background-color: gray !important;
+            border-color: white !important;
+        }
+        .dark-mode .hexagon:before {
+            border-bottom-color: gray !important;
+        }
+        .dark-mode .hexagon:after {
+            border-top-color: gray !important;
+        }
+        .dark-mode .border-black {
+            border-color: white !important;
+        }
+        .dark-mode .bg-gray-100 {
+            background-color: rgb(10, 8, 8) !important;
+        }
+        .dark-mode button {
+            background-color: #333 !important;
+            border-color: white !important;
+        }
+
+        .control-btn:active {
+            transform: scale(0.9);
+            transition: transform 0.1s ease-in-out;
+        }
+    </style>
+</head>
+<body class="flex flex-col items-center justify-center h-screen bg-gray-100 p-4 relative transition-all duration-300" id="body">
+    
+    <h1 class="text-2xl font-bold text-center mt-16 mb-4">OmniRobor 4.0<button onclick="toggleDarkMode()" class="absolute size-small right-4 right-4 p-2 bg-gray-800 text-white rounded transition-all duration-100">🌙</button>
+    </h1>
+    
+    <video id="video" autoplay class="w-8/12 max-w-md border-4 border-black rounded-lg bg-black shadow-lg transform scale-x-[-1]"></video>
+
+    <div class="grid grid-cols-3 gap-3 mt-6 w-11/12 max-w-md">
+        <div></div>
+        <button id="f" class="w-20 h-20 text-lg font-semibold text-black bg-gray-300 border-2 border-gray-500 rounded-full transition-all duration-300 active:scale-90" onclick="location.href='http://{{HTML_address}}:8080/Forward'">F</button>
+        <div></div>
+        <button id="lt" class="w-20 h-20 text-lg font-semibold text-black bg-blue-400 border-2 border-gray-500 rounded-full transition-all duration-300 active:scale-90" onclick="location.href='http://{{HTML_address}}:8080/left'">L</button>
+        <button id="stop" class="w-20 h-20 text-lg font-semibold text-white bg-red-500 border-2 border-red-700 rounded-full transition-all duration-300 active:scale-90" onclick="location.href='http://{{HTML_address}}:8080/stop'">Stop</button>
+        <button id="rt" class="w-20 h-20 text-lg font-semibold text-black bg-blue-400 border-2 border-gray-500 rounded-full transition-all duration-300 active:scale-90" onclick="location.href='http://{{HTML_address}}:8080/right'">R</button>
+        <div></div>
+        <button id="b" class="w-20 h-20 text-lg font-semibold text-black bg-gray-300 border-2 border-gray-500 rounded-full transition-all duration-300 active:scale-90" onclick="location.href='http://{{HTML_address}}:8080/Backward'">B</button>
+        <div></div>
+    </div>
+    
+    <div class="flex justify-center items-center gap-2 mt-5">
+        <button class="control-btn w-10 h-10 bg-green-500 text-white rounded-full text-xl font-bold">h</button>
+        <button class="control-btn w-10 h-10 bg-orange-500 text-white rounded-full text-xl font-bold">m</button>
+        <button class="control-btn w-10 h-10 bg-yellow-500 text-white rounded-full text-xl font-bold">l</button>
+	<button class="control-btn w-10 h-10 bg-blue-300 text-white rounded-full text-xl font-bold">Cn</button>
+    </div>
+    
+    <div class="flex justify-center items-center gap-3 mt-5">
+       <div class="hexagon" onclick="location.href='http://{{HTML_address}}:8080/360_move'">360 Move</div>
+       <div class="hexagon" onclick="location.href='http://{{HTML_address}}:8080/Front_servo'">Front servo</div>
+       <div class="hexagon" onclick="location.href='http://{{HTML_address}}:8080/Back_servo'">Back servo</div>
+       <div class="hexagon" onclick="location.href='http://{{HTML_address}}:8080/Both_servo'">Both servo</div>
+   </div>
+    
+    <script>
+        async function startCamera() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                document.getElementById("video").srcObject = stream;
+            } catch (error) {
+                console.error("Error accessing the camera:", error);
+            }
+        }
+        startCamera();
+
+        function toggleDarkMode() {
+            const body = document.getElementById("body");
+            body.classList.toggle("dark-mode");
+        }
+    </script>
+</body>
+</html>

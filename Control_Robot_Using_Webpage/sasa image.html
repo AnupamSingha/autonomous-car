@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no" />
+  <title>OmniRover - Controls</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .control-btn:active {
+      transform: scale(0.9);
+      transition: transform 0.1s ease-in-out;
+    }
+
+    .round-btn {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.2s ease-in-out;
+    }
+
+    .round-btn:active {
+      transform: scale(0.9);
+    }
+
+    .rectangle-btn {
+      width: 80px;
+      height: 60px;
+      border-radius: 12px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.2s ease-in-out;
+    }
+
+    .rectangle-btn:active {
+      transform: scale(0.95);
+    }
+  </style>
+</head>
+
+<body class="flex flex-col items-center justify-start min-h-screen bg-gray-100 p-4 transition-all duration-300" id="body">
+
+  <div class="absolute top-4 flex flex-col items-center w-full h-24">
+    <div class="absolute right-4 top-2">
+      <button onclick="toggleDarkMode()" id="darkModeBtn"
+        class="p-2 bg-gray-800 text-white rounded transition-all duration-100">🌙</button>
+    </div>
+    <h1 class="text-xl font-bold mt-6">OmniRover - Controls</h1>
+  </div>
+
+  <!-- Robot Image -->
+  <div class="mt-20">
+    <img src="https://www.sasa.com.tr/Themes/sasa/assets/sasa-images/SASA.PNG"
+         alt="Robot Image"
+         class="w-70 h-60 object-contain mb-4 mx-auto">
+  </div>
+
+  <!-- Directional Controls -->
+  <div class="grid grid-cols-3 gap-2 mt-2 w-full max-w-xs">
+    <div></div>
+    <button class="round-btn bg-gray-300 border-2 border-gray-500"
+      onclick="location.href='http://{{HTML_address}}:8080/Forward'">F</button>
+    <div></div>
+    <button class="round-btn bg-blue-400 border-2 border-gray-500"
+      onclick="location.href='http://{{HTML_address}}:8080/left'">L</button>
+    <button class="round-btn bg-red-500 border-2 border-red-700"
+      onclick="location.href='http://{{HTML_address}}:8080/stop'">S</button>
+    <button class="round-btn bg-blue-400 border-2 border-gray-500"
+      onclick="location.href='http://{{HTML_address}}:8080/right'">R</button>
+    <div></div>
+    <button class="round-btn bg-gray-300 border-2 border-gray-500"
+      onclick="location.href='http://{{HTML_address}}:8080/Backward'">B</button>
+    <div></div>
+  </div>
+
+  <!-- Speed and Centering -->
+  <div class="flex justify-center items-center gap-1 mt-4">
+    <button class="control-btn w-14 h-14 bg-green-500 text-white rounded-full text-sm font-bold"
+      onclick="location.href='http://{{HTML_address}}:8080/high'">H</button>
+    <button class="control-btn w-14 h-14 bg-orange-500 text-white rounded-full text-sm font-bold"
+      onclick="location.href='http://{{HTML_address}}:8080/medium'">M</button>
+    <button class="control-btn w-14 h-14 bg-yellow-500 text-white rounded-full text-sm font-bold"
+      onclick="location.href='http://{{HTML_address}}:8080/low'">L</button>
+    <button class="control-btn w-14 h-14 bg-blue-300 text-white rounded-full text-sm font-bold"
+      onclick="location.href='http://{{HTML_address}}:8080/center'">C</button>
+    <button class="control-btn w-14 h-14 bg-purple-500 text-white rounded-full text-sm font-bold"
+      onclick="location.href='http://{{HTML_address}}:8080/center'">Auto</button>
+  </div>
+
+  <!-- Special Functions -->
+  <div class="flex justify-center items-center flex-wrap gap-2 mt-5">
+    <button class="rectangle-btn bg-blue-500 text-white border-2 border-gray-500"
+      onclick="location.href='http://{{HTML_address}}:8080/threesixty_move'">360 Move</button>
+    <button class="rectangle-btn bg-green-500 text-white border-2 border-gray-500"
+      onclick="location.href='http://{{HTML_address}}:8080/front_servo'">Front Servo</button>
+    <button class="rectangle-btn bg-orange-500 text-white border-2 border-gray-500"
+      onclick="location.href='http://{{HTML_address}}:8080/back_servo'">Back Servo</button>
+    <button class="rectangle-btn bg-purple-500 text-white border-2 border-gray-500"
+      onclick="location.href='http://{{HTML_address}}:8080/both_servo'">Both Servo</button>
+  </div>
+
+ 
+  
+  
+
+  <script>
+    function toggleDarkMode() {
+      const body = document.getElementById("body");
+      body.classList.toggle("bg-gray-900");
+      body.classList.toggle("text-white");
+      document.getElementById("darkModeBtn").textContent = body.classList.contains("bg-gray-900") ? "☀️" : "🌙";
+      localStorage.setItem("darkMode", body.classList.contains("bg-gray-900") ? "enabled" : "disabled");
+    }
+
+    window.onload = function () {
+      if (localStorage.getItem("darkMode") === "enabled") {
+        document.getElementById("body").classList.add("bg-gray-900", "text-white");
+        document.getElementById("darkModeBtn").textContent = "☀️";
+      }
+    };
+  </script>
+</body>
+
+<footer class="text-center text-sm text-gray-600 mt-8">
+  <I>&copy; 2025 <b>SASA</b>.All rights reserved.</I>
+</footer>
+
+</html>
